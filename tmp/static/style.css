@@ -1,0 +1,40 @@
+
+.table-card{
+    margin-top: 30px;
+    height: max-content;
+}
+.my-table{
+
+    padding-top: 10px;
+}
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+    .side-bar a:hover{
+        background-color: #29bd00;
+        width: 100%;
+    }
+    .figures{
+        color: #29bd00;
+    }
+    .expence{
+        color: #9b0808;
+    }
+    #kwacha{
+        color: #29bd00;
+    }
+    .filters{
+        background-color: #29BD004F; 
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        
+    }
+    #the-logo{
+        padding: 15px;
+    }

@@ -1,0 +1,28 @@
+#card-table{
+width: 100%;
+}
+.side-bar a:hover{
+    background-color: #29bd00;
+    width: 100%;
+}
+#agent_total_transaction{
+display: none;
+}
+#commission{
+display: none;
+}
+#transaction{
+display: none;
+}
+#cdeposit-await{
+display: none;
+}
+#expence{
+display: none;
+}
+#billford{
+display: none;
+}
+
+
+    

@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row" style="margin-top: 30px;">
+    <div class="col-md-6 col-xl-3">
+        <div class="card my-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-sm bg-soft-info rounded">
+                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-success my-1 ">ZMK<span data-plugin="counterup"> {{total_amount}} </span>
+                            </h3>
+                            <p class="text-muted mb-1 text-truncate head"> <b>Total Txn Amount</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6 class="text-uppercase">Target <span class="float-end">60%</span></h6>
+                    <div class="progress progress-sm m-0">
+                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 60%">
+                            <span class="visually-hidden">60% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card my-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-sm bg-soft-info rounded">
+                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark my-1"><span data-plugin="counterup"> {{total_transaction_count}} </span>
+                            </h3>
+                            <p class="text-muted mb-1 text-truncate"><b>Total No. Transactions</b>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6 class="text-uppercase">Target <span class="float-end">49%</span></h6>
+                    <div class="progress progress-sm m-0">
+                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="49" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 49%">
+                            <span class="visually-hidden">49% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card my-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-sm bg-soft-info rounded">
+                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark my-1">K<span data-plugin="counterup">{{deposited_amount}}
+                                </span></h3>
+                            <p class="text-muted mb-1 text-truncate"><b>Desposit Amount</b>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6 class="text-uppercase">Target <span class="float-end">18%</span></h6>
+                    <div class="progress progress-sm m-0">
+                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="18" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 18%">
+                            <span class="visually-hidden">18% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card my-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-sm bg-soft-info rounded">
+                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark my-1">K<span data-plugin="counterup" class="expence "> {{deposited_await}}</span>
+                            </h3>
+                            <p class="text-muted mb-1 text-truncate"><b>Deposit Awaiting </b>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6 class="text-uppercase">Target <span class="float-end">74%</span></h6>
+                    <div class="progress progress-sm m-0">
+                        <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="74" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 74%">
+                            <span class="visually-hidden">74% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card-->
+    </div> <!-- end col -->    
+</div>
+<!-- end row -->
+ 
+
+
+<div class="row">
+    <div class="col-lg-12 ">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Transactions</h4>
+                
+                <div style="display:flex; justify-content:space-between">
+                <div class="row">
+                     
+                    <div class="col-md-12 mb-3" style="padding-left: 15px;">
+
+                        <a id="yourButtonId" href="{% url 'account:load' %}" class="btn btn-primary" >Load</a>
+                    </div>
+                </div>
+                <!-- Add advanced filter dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        Advanced Filter
+                    </button>
+                    <ul class="dropdown-menu " style="width: 400px;" aria-labelledby="dropdownMenu2">
+                        <form class="px-4 py-3 " method="GET" action="{% url 'account:search' %}">
+                            <p>
+                                <label for="id_agent">Agent:</label>
+                                <select name="agent" class="form-control" required="" id="id_agent">
+                                    <!-- <option value="" selected="">Select Agent</option> -->
+                                    <option value="all">All Agents</option>
+                                    {% for i in agents %}
+                                    <option value="{{i.id}}">{{i}}</option>
+                                    {% endfor  %}
+                                </select>
+                            </p>                            
+                            <p>
+                                <label for="id_timestamp">Start Date:</label>
+                                <input type="date" name="timestamp" class="form-control" required="" id="id_timestamp">
+                            </p>                            
+                            <p>
+                                <label for="id_date_to">End Date:</label>
+                                <input type="date" name="date_to" class="form-control" required="" id="id_date_to">
+                            </p>
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </form>
+                    </ul>
+                  </div>
+                
+            </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ATD no</th>
+                                <th>Amount</th> 
+                                <th>Agent</th>
+                                <th>Txn Status</th>
+                                <th>Depositer Number</th>
+                                <th class="text-center">RefId</th>
+                                <th>Deposited</th>
+                                <th class="text-center">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if transactions %}
+                            {% for obj in transactions %}
+                            <tr data-index="0">
+                                <td> 
+                                    <a class="btn-link" data-bs-toggle="modal" href="#exampleModalToggle-{{obj.id}}" role="button"> 
+                                        {{obj.transAdt}}
+                                    </a>
+                                </td>
+                                <td>{{obj.transAmount}}</td>
+                                <td><span class="text-muted">{{obj.agent}}</span></td>
+                                <td style="text-align: center; ">{{obj.get_status}}</td>
+                                <td style="text-align: center; ">{{obj.depositer}}</td>
+                                <td style="text-align: center; ">{{obj.transRef}}</td>
+                                <td style="text-align: center; ">{{obj.get_deposit_status}}</td>
+                                <td style="text-align: center; ">{{obj.created_at}}</td>
+                            </tr>
+                            <div class="modal fade" id="exampleModalToggle-{{obj.id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                        <ul class="list-group">
+                                            {% if not obj.isDeposited %} 
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                
+                                                Money Deposited by agent?
+                                                <div>
+                                                    <a class="btn btn-sm btn-outline-success" href="{{obj.set_is_deposit}}" >Yes</a>
+                                                </div> 
+                                            </li>
+                                            {% endif %}
+                                           
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                ATD No.
+                                                <span class="">{{obj.transAdt}}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Leader Number
+                                                <span class="">{{obj.leadernumber}}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Deposit Number
+                                                <span class="">{{obj.depositer}}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Numbwe Of Farmers
+                                                <span class="">{{obj.numberOfFarmers}}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Agent Names
+                                                <span class="">{{obj.agent}}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Agent Number
+                                                <span class="">{{obj.agent.phonenumber}}</span>
+                                            </li>
+                                            
+                                           
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                transRef
+                                                <span class="">{{obj.transRef}}</span>
+                                            </li>
+
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Status
+                                                <span class="badge bg-success rounded-bill p-1">{{obj.get_status}}</span>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                     
+                                  </div>
+                                </div>
+                              </div>
+                               
+                             
+                            {% endfor %}
+                            {% else %}
+                            <div class="text-danger display-6 my-2">No records found</div>
+                            <div class="text-danger my-2">check filters and dates, or query sets</div>
+                            {% endif %}
+                        </tbody>
+                         
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        {% if page_obj %}
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                    <span class="step-links">
+                                        {% if page_obj.has_previous %}
+                                            <!-- <a href="?page=1">&laquo; first</a>
+                                            <a href="?page={{ page_obj.previous_page_number }}">previous</a> -->
+                                        {% endif %}
+                                
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+                                
+                                        {% if page_obj.has_next %}
+                                            <!-- <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
+                                        {% endif %}
+                                    </span>
+                            </ul>
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                        
+                                {% for i in page_obj.paginator.page_range %}
+                                    {% if i == page_obj.number %}  
+                                    <li class="page-item  active ">
+                                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                        
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+
+{% endblock %}

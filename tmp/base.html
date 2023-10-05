@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- App favicon -->
+
+
+    <!-- Plugins css -->
+    <link href="{% static 'libs/flatpickr/flatpickr.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap css -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App css -->
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet" type="text/css" id="app-style" />
+    <!-- icons -->
+    <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Head js -->
+    <script src="{% static 'js/head.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+   <!-- Include Bootstrap CSS -->
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+   <style>
+       /* Style for the blurred overlay */
+       .overlay {
+           display: none; /* Initially hide the overlay */
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for the blur effect */
+           backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+           z-index: 9999; /* Ensure the overlay is on top of other content */
+           display: flex;
+           justify-content: center;
+           align-items: center;
+       }
+
+       /* Style for the loading spinner */
+       .spinner-grow {
+           color: #fff; /* Spinner color */
+       }
+   </style>
+</head>
+
+<body data-layout-mode="default" data-theme="light" data-topbar-color="dark" data-menu-position="fixed"
+    data-leftbar-color="light" data-leftbar-size='default' data-sidebar-user='false'>
+
+ 
+
+    <div class="overlay" id="loadingOverlay">
+        <div class="spinner-grow text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- Topbar Start -->
+        <div class="navbar-custom" style="background: #29bd00">
+            <div class="container-fluid">
+                <ul class="list-unstyled topnav-menu float-end mb-0">
+
+                    <!-- <li class="d-none d-lg-block">
+                        <form class="app-search" method="GET" accept="{% url 'account:search' %}">
+                            <div class="app-search-box dropdown">
+                                <div class="input-group">
+                                    <input type="search" class="form-control bg-white cl-danger" placeholder="Search..."
+                                        id="top-search">
+                                    <button class="btn input-group-text bg-white" type="submit">
+                                        <i class="fe-search" style="color:black"></i>
+                                    </button>
+
+
+                                </div>
+                                <div class="dropdown-menu dropdown-lg" id="search-dropdown">
+
+                                    {% for obj in agents %}
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                        <i class="fe-user me-1"></i>
+                                        <span>{{obj}}</span>
+                                    </a>
+                                    {% endfor %}
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </li> -->
+
+                    <li class="dropdown d-inline-block d-lg-none">
+                        <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                            aria-expanded="false">
+                            <i class="fe-search noti-icon"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-lg dropdown-menu-end p-0">
+                            <form class="p-3">
+                                <input type="text" class="form-control" placeholder="Search ..."
+                                    aria-label="Recipient's username">
+                            </form>
+                        </div>
+                    </li>
+
+                    <li class="dropdown d-none d-lg-inline-block">
+                        <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="fullscreen"
+                            href="#">
+                            <i class="fe-maximize noti-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown notification-list topbar-dropdown">
+                        <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                            aria-expanded="false">
+                            <i class="bi bi-person-fill " id="icon"></i>
+                            <span class="pro-user-name ms-1">
+                                {{user}} <i class="mdi mdi-chevron-down"></i>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
+                            <!-- item-->
+
+
+                            <!-- item-->
+                            <a href="{% url 'logout' %}" class="dropdown-item notify-item">
+                                <i class="fe-log-out"></i>
+                                <span>Logout</span>
+                            </a>
+
+
+                        </div>
+                    </li>
+
+
+
+                </ul>
+
+                <!-- LOGO -->
+                <div class="logo-box bg-light p-2 ">
+                    <img class="col-6" src="{% static 'css/images/logo.png' %}" alt="">
+                </div>
+
+                <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+                    <li>
+                        <button class="button-menu-mobile waves-effect waves-light">
+                            <i class="fe-menu"></i>
+                        </button>
+                    </li>
+
+                    <li>
+                        <!-- Mobile menu toggle (Horizontal Layout)-->
+                        <a class="navbar-toggle nav-link" data-bs-toggle="collapse"
+                            data-bs-target="#topnav-menu-content">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a>
+                        <!-- End mobile menu toggle-->
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- end Topbar -->
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left-side-menu" style="background:  white; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+
+            <div class="h-100" data-simplebar>
+
+                <!-- User box -->
+                <!-- <div class="user-box text-center">
+                    <img src="assets/images/users/user-1.jpg" alt="user-img" title="Mat Helme"
+                        class="rounded-circle avatar-md">
+                    <div class="dropdown">
+                        <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
+                            data-bs-toggle="dropdown">Geneva Kennedy</a>
+                        <div class="dropdown-menu user-pro-dropdown">
+
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="fe-user me-1"></i>
+                                <span>My Account</span>
+                            </a>
+
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="fe-settings me-1"></i>
+                                <span>Settings</span>
+                            </a>
+
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="fe-lock me-1"></i>
+                                <span>Lock Screen</span>
+                            </a>
+
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="fe-log-out me-1"></i>
+                                <span>Logout</span>
+                            </a>
+
+                        </div>
+                    </div>
+                    <p class="text-muted">Admin Head</p>
+                </div> -->
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+
+                    <ul id="side-menu" class="side-bar">
+
+                        <li class="menu-title" style="color: black;"><b>Ekamo admin</b></li>
+
+                        <li list-group-item>
+                            <a href="#sidebarDashboards" data-bs-toggle="collapse"
+                                style=" text-decoration: none; color: black;">
+                                <i data-feather="airplay"></i>
+                                <span> <b>Dashboard</b> </span>
+                            </a>
+
+                        </li>
+
+<!-- 
+                        <li>
+                            <a href="#sidebarEcommerce" data-bs-toggle="collapse"
+                                style="color: black; text-decoration: none;">
+                                <i data-feather="users"></i>
+
+                                <span> Accounts </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarEcommerce">
+                                <ul class="nav-second-level">
+
+                                    <li>
+                                        <a href="{% url 'account:agent-list' %}" style="color: black; text-decoration: none;">Agent</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li> -->
+                        <li>
+                            <a href="#sidebarEcommerce2" data-bs-toggle="collapse"
+                                style="color: black; text-decoration: none;">
+                                <i data-feather="users"></i>
+
+                                <span> Transactions </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarEcommerce2">
+                                <ul class="nav-second-level">
+
+                                    <li>
+                                        <a href="{% url 'account:txn' %}" style="color: black; text-decoration: none;">FISP</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- End Sidebar -->
+
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- Sidebar -left -->
+
+        </div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    {% block content %}
+                    {% endblock content %}
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+
+        </div> <!-- container -->
+
+    </div> <!-- content -->
+
+
+    <!-- Footer Start -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a
+                        href="">Coderthemes</a>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-end footer-links d-none d-sm-block">
+                        <a href="javascript:void(0);">About Us</a>
+                        <a href="javascript:void(0);">Help</a>
+                        <a href="javascript:void(0);">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Vendor js -->
+    <script src="{% static 'js/vendor.min.js' %}"></script>
+
+    <!-- Plugins js-->
+    <script src="{% static 'libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+    <script
+        src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js' %}"></script>
+
+    <!-- Dashboard 2 init -->
+    <script src="{% static 'js/pages/dashboard-2.init.js' %}"></script>
+
+    <!-- App js -->
+    <script src="{% static 'js/app.min.js' %}"></script>
+    <script src="{% static 'index.js' %}"></script>
+
+
+    <!-- Include Bootstrap JS and other scripts as needed -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to show/hide the overlay -->
+    <!-- JavaScript to show/hide the overlay -->
+    <script>
+         
+        $(window).on('load', function() {
+            $('#loadingOverlay').fadeOut();
+        });
+
+        // Hide the overlay when the page finishes loading
+        $(document).ready(function() {
+            $('#loadingOverlay').fadeOut();
+        });
+        $(document).ready(function() {
+        // Capture the button click event
+        $('#yourButtonId').on('click', function() {
+            // Hide the overlay when the button is clicked
+            $('#loadingOverlay').fadeOut();
+        });
+    });
+    </script>
+</body>
+
+</html>
