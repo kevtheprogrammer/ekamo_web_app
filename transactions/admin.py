@@ -3,16 +3,26 @@ from .models import FispTransaction
 import django_filters
 
 
-
+@admin.register(FispTransaction)
 class FispTransactionAdmin(admin.ModelAdmin):
-    list_display = ('transAdt', 'numberOfFarmers', 'created_at', 'transAmount', 'agent', 'timestamp')
+    list_display = ('transAdt', 'numberOfFarmers','isDeposited','created_at', 'transAmount', 'agent', 'timestamp')
     list_filter = ('isSuccess','isDeposited', 'agent')
-    search_fields = ('transAdt', 'agent__user__username')  # Assuming AgentProfile has a user field
+    search_fields = ('transAdt', 'agent__user__first_name' , 'agent__user__last_name')  # Assuming AgentProfile has a user field
 
-    list_per_page = 25
+    # list_per_page = 25
     list_select_related = ('agent',)
 
     readonly_fields = ('timestamp', 'updated')
+
+    actions = ['add_deposit','remove_deposit' ]
+
+    def add_deposit(self,request, queryset):
+        queryset.update(isDeposited=True)
+        
+    def remove_deposit(self,request, queryset):
+        queryset.update(isDeposited=False)
+    
+ 
 
     # fieldsets = (
     #     ('Transaction Details', {
@@ -37,4 +47,4 @@ class FispTransactionAdmin(admin.ModelAdmin):
         return f"${obj.transAmount:.2f}"
     transAmount_formatted.short_description = 'Transaction Amount'
 
-admin.site.register(FispTransaction, FispTransactionAdmin)
+# admin.site.register(FispTransaction, FispTransactionAdmin)

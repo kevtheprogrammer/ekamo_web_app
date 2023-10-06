@@ -14,6 +14,7 @@ urlpatterns = [
     path('fisp/transctions/search', login_required(SearchResultsListView.as_view()), name='search'),
     path('fisp/transctions/<int:pk>/detail/search', login_required(detail_search_txn), name='search_txn_details'),
     path('deposit/fisp/transctions/<int:pk>', login_required(make_deposit), name='txn_deposit'),
+    path('deposit/fisp/transctions/mark_deposits    ', login_required(make_deposits), name='make_deposits'),
     
     path('loading/', login_required(fetchAPI), name='load'),
 ]

@@ -9,7 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from .forms import *
 from django.db.models import Q
-
+from decimal import Decimal
+from django.http import HttpResponse
 
 class TransactionListView(ListView):
     model = FispTransaction
@@ -22,52 +23,22 @@ class TransactionListView(ListView):
         context = super().get_context_data(**kwargs)
         context['agents'] = AgentProfile.objects.all()
         return context
-
-
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     name = self.request.GET.get('q')
-    #     start_date = self.request.GET.get('timestamp')
-    #     end_date = self.request.GET.get('date_to')
-    #     agent_id = self.request.GET.get('agent')
-
-    #     if name:
-    #         queryset = queryset.filter(
-    #             Q(agent__first_name__icontains=name) |
-    #             Q(agent__last_name__icontains=name) |
-    #             Q(agent__code__icontains=name) |
-    #             Q(agent__phonenumber__icontains=name)
-    #         )
-    #     if agent_id == 'all':
-    #         if start_date:
-    #             queryset = queryset.filter(created_at__gte=start_date)
-            
-    #         if end_date:
-    #             queryset = queryset.filter(created_at__lte=end_date)
-            
-    #     elif agent_id != 'all':
-    #         if agent_id:
-    #             queryset = queryset.filter(agent_id=agent_id)
-            
-    #         if start_date:
-    #             queryset = queryset.filter(created_at__gte=start_date)
-            
-    #         if end_date:
-    #             queryset = queryset.filter(created_at__lte=end_date)
-            
-    #     return queryset
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         agents_to_manage = AgentProfile.objects.all()
         # Calculate the total transAmount for the filtered queryset
         total_trans_amount = self.get_queryset().aggregate(total_amount=models.Sum('transAmount'))['total_amount']
-        deposited_amount =  FispTransaction.objects.filter(agent__in=agents_to_manage,isDeposited=True).aggregate(total_amount=Sum('transAmount'))['total_amount']
+        deposited_amount =  FispTransaction.objects.filter(isDeposited=True).aggregate(total_amount=Sum('transAmount'))['total_amount']
+        try:
+            amount = total_trans_amount - deposited_amount
+        except:
+            amount = 0
         context['form'] = self.form_class(user=self.request.user)  # Add it to the context
         context['total_amount'] = total_trans_amount  # Add it to the context
         context['deposited_amount'] = deposited_amount  # Add it to the context
         context['total_transaction_count'] = self.get_queryset().count()  # Add it to the context
-        # context['deposited_await'] = total_trans_amount - deposited_amount# Add it to the context
+        context['deposited_await'] = amount# Add it to the context
         context['agents'] = AgentProfile.objects.all() #Add it to the context
         return context
  
@@ -104,12 +75,14 @@ class SearchResultsListView(ListView):
                 queryset = queryset.filter(created_at__date=start_date)
             else:
                 if start_date:
-                    queryset = queryset.filter(created_at__gte=start_date)
-                
+                    queryset = queryset.filter(created_at__gte=start_date)    
                 if end_date:
                     queryset = queryset.filter(created_at__lte=end_date)
             
         elif agent_id != 'all':
+            if start_date is None and end_date is None:
+                queryset = queryset.filter(agent_id=agent_id)
+            
             if agent_id:
                 queryset = queryset.filter(agent_id=agent_id)
             
@@ -121,27 +94,93 @@ class SearchResultsListView(ListView):
                 
                 if end_date:
                     queryset = queryset.filter(created_at__lte=end_date)
-            
         return queryset
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         agents_to_manage = AgentProfile.objects.all()
         # Calculate the total transAmount for the filtered queryset
+        # queryset = self.get_queryset()
         total_trans_amount = self.get_queryset().aggregate(total_amount=models.Sum('transAmount'))['total_amount']
-        deposited_amount =  FispTransaction.objects.filter(agent__in=agents_to_manage,isDeposited=True).aggregate(total_amount=Sum('transAmount'))['total_amount']
+        # deposited_amount =  FispTransaction.objects.filter(isDeposited=True, id=self.get_queryset().id) 
+        total_deposited_amount_amount = []
+        print(self.get_queryset())
+        for x in FispTransaction.objects.all():
+            if x in  self.get_queryset():
+                if x.isDeposited:
+                    total_deposited_amount_amount.append(int(x.transAmount))
+        # deposited_amount = [ x.aggregate(total_amount=Sum('transAmount'))['total_amount'] for x in FispTransaction.objects.filter(isDeposited=True) ]
+        # print('deposited --',sum(total_deposited_amount_amount))
+        try:
+            amount = total_trans_amount - sum(total_deposited_amount_amount)
+        except:
+            amount = 0
+
+        # try:
+        #     start_date = self.request.GET.get('timestamp')
+        #     end_date = self.request.GET.get('date_to')
+        #     agent_id = self.request.GET.get('agent')
+        #     agent = AgentProfile.objects.filter(id=agent_id) #iterate by all
+        #     context['start_date_query'] = start_date  # Add it to the context
+        #     context['end_date_query'] = end_date  # Add it to the context
+        #     context['agent_query'] = agent  # Add it to the context
+        # except:
+        #     pass
         context['form'] = self.form_class(user=self.request.user)  # Add it to the context
         context['total_amount'] = total_trans_amount  # Add it to the context
-        context['deposited_amount'] = deposited_amount  # Add it to the context
+        context['deposited_amount'] = sum(total_deposited_amount_amount)  # Add it to the context
         context['total_transaction_count'] = self.get_queryset().count()  # Add it to the context
-        # context['deposited_await'] = total_trans_amount - deposited_amount# Add it to the context
+        context['deposited_await'] = amount# Add it to the context
         context['agents'] = AgentProfile.objects.all() #Add it to the context
         return context
  
-
  
 def make_deposit(request, pk):
     txn = FispTransaction.objects.get(pk=pk)
     txn.isDeposited = True
     txn.save()
-    return redirect('account:txn')
+    total_amount = txn.aggregate(total_amount=models.Sum('transAmount'))['total_amount']
+    context ={
+        'transactions':txn,
+        'total_amount':total_amount,
+        'deposited_amount':total_amount,
+        'total_transaction_count':txn.count(),
+        'deposited_await':total_amount - total_amount ,
+    }
+    return render(request, 'control/transactions_list.html', context)
+
+
+
+def make_deposits(request):
+    if request.method == 'POST':
+        # Get a list of selected transaction IDs from the form
+        selected_transaction_ids = request.POST.getlist('selected_transactions')
+
+        # Update the isDeposited field for selected transactions
+        txn = FispTransaction.objects.filter(pk__in=selected_transaction_ids) 
+        txn.update(isDeposited=True)
+        total_amount = txn.aggregate(total_amount=models.Sum('transAmount'))['total_amount']
+        context ={
+                'transactions':txn,
+                'total_amount':total_amount,
+                'deposited_amount':total_amount,
+                'total_transaction_count':txn.count(),
+                'deposited_await':total_amount - total_amount ,
+            }
+        
+                # agents_to_manage = AgentProfile.objects.all()
+        # Calculate the total transAmount for the filtered queryset
+        # total_trans_amount = self.get_queryset().aggregate(total_amount=models.Sum('transAmount'))['total_amount']
+        # deposited_amount =  FispTransaction.objects.filter(isDeposited=True).aggregate(total_amount=Sum('transAmount'))['total_amount']
+        # try:
+        #     amount = total_trans_amount - deposited_amount
+        # except:
+        #     amount = 0
+        # context['form'] = self.form_class(user=self.request.user)  # Add it to the context
+        # context['total_amount'] = total_trans_amount  # Add it to the context
+        # context['deposited_amount'] = deposited_amount  # Add it to the context
+        # context['total_transaction_count'] = self.get_queryset().count()  # Add it to the context
+        # context['deposited_await'] = amount# Add it to the context
+        # context['agents'] = AgentProfile.objects.all() #Add it to the context
+        # Redirect to a confirmation page or the original page
+        return render(request, 'control/transactions_list.html', context) # redirect('account:search')  # Change 'confirmation_page' to your actual URL

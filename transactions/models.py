@@ -59,7 +59,13 @@ class FispTransaction(models.Model):
     def get_deposit_status(self):
         if self.isDeposited:
             return "Yes"
-        return  "no"
+        return  "No"
+    
+    def get_deposit(self):
+        if self.isDeposited:
+            return True
+        return  False
+
 
     def __str__(self):
         return f'{self.transAdt} - {self.transAmount}'

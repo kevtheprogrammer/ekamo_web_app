@@ -18,6 +18,7 @@
 
     <!-- Plugins css -->
     <link href="{% static 'libs/flatpickr/flatpickr.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet" type="text/css" />
 
     <!-- Bootstrap css -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
@@ -28,43 +29,48 @@
     <!-- Head js -->
     <script src="{% static 'js/head.js' %}"></script>
     <link rel="stylesheet" href="{% static 'style.css' %}">
-   <!-- Include Bootstrap CSS -->
-   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-   <style>
-       /* Style for the blurred overlay */
-       .overlay {
-           display: none; /* Initially hide the overlay */
-           position: fixed;
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 100%;
-           background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for the blur effect */
-           backdrop-filter: blur(5px); /* Apply a blur effect to the background */
-           z-index: 9999; /* Ensure the overlay is on top of other content */
-           display: flex;
-           justify-content: center;
-           align-items: center;
-       }
+    <!-- Include Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <style>
+        /* Style for the blurred overlay */
+        .overlay {
+            display: none;
+            /* Initially hide the overlay */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent black background for the blur effect */
+            backdrop-filter: blur(5px);
+            /* Apply a blur effect to the background */
+            z-index: 9999;
+            /* Ensure the overlay is on top of other content */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-       /* Style for the loading spinner */
-       .spinner-grow {
-           color: #fff; /* Spinner color */
-       }
-   </style>
+        /* Style for the loading spinner */
+        .spinner-grow {
+            color: #fff;
+            /* Spinner color */
+        }
+    </style>
 </head>
 
 <body data-layout-mode="default" data-theme="light" data-topbar-color="dark" data-menu-position="fixed"
     data-leftbar-color="light" data-leftbar-size='default' data-sidebar-user='false'>
 
- 
+
 
     <div class="overlay" id="loadingOverlay">
         <div class="spinner-grow text-success" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    
+
 
     <!-- Begin page -->
     <div id="wrapper">
@@ -234,7 +240,7 @@
 
                         </li>
 
-<!-- 
+                        <!-- 
                         <li>
                             <a href="#sidebarEcommerce" data-bs-toggle="collapse"
                                 style="color: black; text-decoration: none;">
@@ -265,7 +271,8 @@
                                 <ul class="nav-second-level">
 
                                     <li>
-                                        <a href="{% url 'account:txn' %}" style="color: black; text-decoration: none;">FISP</a>
+                                        <a href="{% url 'account:txn' %}"
+                                            style="color: black; text-decoration: none;">FISP</a>
                                     </li>
 
                                 </ul>
@@ -343,8 +350,7 @@
     <!-- Plugins js-->
     <script src="{% static 'libs/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
-    <script
-        src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js' %}"></script>
 
     <!-- Dashboard 2 init -->
     <script src="{% static 'js/pages/dashboard-2.init.js' %}"></script>
@@ -352,7 +358,11 @@
     <!-- App js -->
     <script src="{% static 'js/app.min.js' %}"></script>
     <script src="{% static 'index.js' %}"></script>
+    <!-- Bootstrap Tables js -->
+    <!-- <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script> -->
 
+    <!-- Init js -->
+    <script src="{% static 'js/pages/bootstrap-tables.init.js' %}"></script>
 
     <!-- Include Bootstrap JS and other scripts as needed -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -362,22 +372,22 @@
     <!-- JavaScript to show/hide the overlay -->
     <!-- JavaScript to show/hide the overlay -->
     <script>
-         
-        $(window).on('load', function() {
+
+        $(window).on('load', function () {
             $('#loadingOverlay').fadeOut();
         });
 
         // Hide the overlay when the page finishes loading
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#loadingOverlay').fadeOut();
         });
-        $(document).ready(function() {
-        // Capture the button click event
-        $('#yourButtonId').on('click', function() {
-            // Hide the overlay when the button is clicked
-            $('#loadingOverlay').fadeOut();
+        $(document).ready(function () {
+            // Capture the button click event
+            $('#yourButtonId').on('click', function () {
+                // Hide the overlay when the button is clicked
+                $('#loadingOverlay').fadeOut();
+            });
         });
-    });
     </script>
 </body>
 
