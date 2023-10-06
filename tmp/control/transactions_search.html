@@ -17,8 +17,8 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <h3 class="text-dark my-1 amount">K<span data-plugin="counterup "
-                                    class="figures">{{total_amount}}</span></h3>
+                            <h3 class="text-success my-1 ">ZMK<span data-plugin="counterup"> {{total_amount}} </span>
+                            </h3>
                             <p class="text-muted mb-1 text-truncate head"> <b>Total Txn Amount</b>
                             </p>
                         </div>
@@ -84,6 +84,7 @@
                             <h3 class="text-dark my-1">K<span data-plugin="counterup">{{deposited_amount}}
                                 </span></h3>
                             <p class="text-muted mb-1 text-truncate"><b>Desposit Amount</b>
+
                             </p>
                         </div>
                     </div>
@@ -143,20 +144,12 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Transactions</h4>
-
                 <div style="display:flex; justify-content:space-between">
                     <div class="row">
-                        <div class="col-md-12" style="padding-left: 15px;">
-                            <form method="post" action="{% url 'account:search' %}">
 
-                                <div class="input-group mb-3">
-                                    {% csrf_token %}
-                                    <input type="text" class="form-control" name="q" placeholder="Search...">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Search</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="col-md-12 mb-3" style="padding-left: 15px;">
+
+                            <a id="yourButtonId" href="{% url 'account:load' %}" class="btn btn-success">Load</a>
                         </div>
                     </div>
                     <!-- Add advanced filter dropdown -->
@@ -166,355 +159,313 @@
                             Advanced Filter
                         </button>
                         <ul class="dropdown-menu " style="width: 400px;" aria-labelledby="dropdownMenu2">
-                            <form class="px-4 py-3 " method="post" action="{% url 'account:filter_view' %}">
-                                {% csrf_token %}
-                                {{ form.as_p }}
+                            <form class="px-4 py-3 " method="GET" action="{% url 'account:search' %}">
+                                <p>
+                                    <label for="id_agent">Agent:</label>
+                                    <select name="agent" class="form-control" required="" id="id_agent">
+                                        <!-- <option value="" selected="">Select Agent</option> -->
+                                        <option value="all">All Agents</option>
+                                        {% for i in agents %}
+                                        <option value="{{i.id}}">{{i}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </p>
+                                <p>
+                                    <label for="id_timestamp">Start Date:</label>
+                                    <input type="date" name="timestamp" class="form-control"  required
+                                        id="id_timestamp">
+                                </p>
+                                <p>
+                                    <label for="id_date_to">End Date:</label>
+                                    <input type="date" name="date_to" class="form-control" required  id="id_date_to">
+                                </p>
                                 <button type="submit" class="btn btn-primary">Filter</button>
                             </form>
                         </ul>
                     </div>
 
                 </div>
+                <form method="POST" action="{% url 'account:make_deposits' %}">
+                    <button class="btn btn-outline-success mb-2" type="submit">Mark as Deposited</button>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>ATD no</th>
-                                <th>Amount</th>
-                                <th>Agent</th>
-                                <th>Leader Number</th>
-                                <th>Depositer Number</th>
-                                <th class="text-center">RefId</th>
-                                <th>Deposited</th>
-                                <th class="text-center">Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for obj in transactions %}
-                            <tr data-index="0">
-                                <td>
-                                    <a class="btn-link" data-bs-toggle="modal" href="#exampleModalToggle-{{obj.id}}"
-                                        role="button">
-                                        {{obj.transAdt}}
-                                    </a>
-                                </td>
-                                <td>{{obj.transAmount}}</td>
-                                <td><span class="text-muted">{{obj.agent}}</span></td>
-                                <td style="text-align: center; ">{{obj.leadernumber}}</td>
-                                <td style="text-align: center; ">{{obj.depositer}}</td>
-                                <td style="text-align: center; ">{{obj.transRef}}</td>
-                                <td style="text-align: center; ">{{obj.get_deposit_status}}</td>
-                                <td style="text-align: center; ">{{obj.timestamp}}</td>
-                            </tr>
-                            <div class="modal fade" id="exampleModalToggle-{{obj.id}}" aria-hidden="true"
-                                aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
+                    <div class="table-responsive">
 
-                                            <ul class="list-group">
-                                                {% if not obj.isDeposited %}
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="bootstrap-table bootstrap5">
+                            <div class="fixed-table-toolbar"></div>
 
-                                                    Money Deposited by agent?
-                                                    <div>
-                                                        <a class="btn btn-sm btn-outline-success"
-                                                            href="{{obj.set_is_deposit}}">Yes</a>
+                            <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                <div class="fixed-table-body">
+                                    {% csrf_token %}
+                                    <table data-toggle="table" data-page-size="15" data-buttons-class="xs btn-light"
+                                        data-pagination="true" class="table-bordered table table-hover"
+                                        style="display: table;">
+                                        <thead class="table-light">
+                                            <tr>
+                                                     
+                                                <th class="bs-checkbox" style="width: 36px;" data-field="state">
+                                                    <div class="th-inner"><label><input id="selectAllCheckbox" type="checkbox"><span></span></label></div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                    
+                                                <th data-field="id">
+                                                    <div class="th-inner ">ATD Number</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="name">
+                                                    <div class="th-inner ">Amount</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="date">
+                                                    <div class="th-inner ">Agent</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="user-status">
+                                                    <div class="th-inner ">RefId</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="user-status">
+                                                    <div class="th-inner ">status</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="user-status">
+                                                    <div class="th-inner ">Time</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for obj in transactions %}
+                                            <tr data-index="3" class="">
+                                                <td class="bs-checkbox " style="width: 36px; "><label>
+                                                        <input data-index="{{ obj.id }}" name="selected_transactions"
+                                                            value="{{ obj.id }}" type="checkbox">
+                                                        <span></span>
+                                                    </label></td>
+                                                <td>
+                                                    <a class="btn-link" data-bs-toggle="modal"
+                                                        href="#exampleModalToggle-{{obj.id}}"
+                                                        role="button">{{obj.transAdt}}</a>
+                                                </td>
+                                                <td>{{obj.transAmount}}</td>
+                                                <td>{{obj.agent}}</td>
+                                                <td>{{obj.transRef}}</td>
+                                                <td><span class="badge
+                                                    {% if not obj.isDeposited %} bg-soft-danger text-danger
+                                                    {% else %} bg-soft-success text-success
+                                                    {% endif %}
+                                                    p-1 rounded-bill ">{{obj.get_deposit_status}}</span></td>
+                                                <td>{{obj.created_at}}</td>
+                                            </tr>
+                                            <div class="modal fade" id="exampleModalToggle-{{obj.id}}"
+                                                aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+                                                tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul class="list-group">
+                                                                {% if not obj.isDeposited %}
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Money Deposited by agent?
+                                                                    <div>
+                                                                        <div class=""
+                                                                            href="">No</div>
+                                                                    </div>
+                                                                </li>
+                                                                {% endif %}
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    ATD No.
+                                                                    <span class="">{{obj.transAdt}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Leader Number
+                                                                    <span class="">{{obj.leadernumber}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Deposit Number
+                                                                    <span class="">{{obj.depositer}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Numbwe Of Farmers
+                                                                    <span class="">{{obj.numberOfFarmers}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Agent Names
+                                                                    <span class="">{{obj.agent}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Agent Number
+                                                                    <span class="">{{obj.agent.phonenumber}}</span>
+                                                                </li>
+
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    transRef
+                                                                    <span class="">{{obj.transRef}}</span>
+                                                                </li>
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Status
+                                                                    <span
+                                                                        class="badge bg-success rounded-bill p-1">dsd{{obj.get_status}}</span>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+
                                                     </div>
-                                                </li>
-                                                {% endif %}
-
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    ATD No.
-                                                    <span class="">{{obj.transAdt}}</span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Leader Number
-                                                    <span class="">{{obj.leadernumber}}</span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Deposit Number
-                                                    <span class="">{{obj.depositer}}</span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Numbwe Of Farmers
-                                                    <span class="">{{obj.numberOfFarmers}}</span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Agent Names
-                                                    <span class="">{{obj.agent}}</span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Agent Number
-                                                    <span class="">{{obj.agent.phonenumber}}</span>
-                                                </li>
-
-
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    transRef
-                                                    <span class="">{{obj.transRef}}</span>
-                                                </li>
-
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    Status
-                                                    <span
-                                                        class="badge bg-success rounded-bill p-1">{{obj.get_status}}</span>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <tfoot>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </tfoot>
-
-                    <div class="bootstrap-table bootstrap5">
-                        <div class="fixed-table-toolbar"></div>
-
-                        <div class="fixed-table-container" style="padding-bottom: 0px;">
-                            <div class="fixed-table-header" style="display: none;">
-                                <table></table>
-                            </div>
-                            <div class="fixed-table-body">
-                                <div class="fixed-table-loading table table-bordered table-hover" style="top: 1px;">
-                                    <span class="loading-wrap">
-                                        <span class="loading-text">Loading, please wait</span>
-                                        <span class="animation-wrap"><span class="animation-dot"></span></span>
-                                    </span>
-
-                                </div>
-                                <table data-toggle="table" data-page-size="5" data-buttons-class="xs btn-light"
-                                    data-pagination="true" class="table-bordered table table-hover"
-                                    style="display: table;">
-                                    <thead class="table-light" style="">
-                                        <tr>
-                                            <th class="bs-checkbox " style="width: 36px; " data-field="state">
-                                                <div class="th-inner "><label><input name="btSelectAll"
-                                                            type="checkbox"><span></span></label></div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="id">
-                                                <div class="th-inner ">ATD Number</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="name">
-                                                <div class="th-inner ">Amount</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="date">
-                                                <div class="th-inner ">Agent</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="amount">
-                                                <div class="th-inner ">Leader Number</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="user-status">
-                                                <div class="th-inner ">Depositer Number</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="user-status">
-                                                <div class="th-inner ">RefId</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th style="" data-field="user-status">
-                                                <div class="th-inner ">Time</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for obj in transactions %}
-                                        <tr data-index="3" class="">
-                                            <td class="bs-checkbox " style="width: 36px; "><label>
-                                                <input data-index="3" name="btSelectItem-{{obj.id}}" type="checkbox">
-                                                    <span></span>
-                                                </label></td>
-                                            <td>
-                                                <a class="btn-link" data-bs-toggle="modal" href="#exampleModalToggle-{{obj.id}}"
-                                                role="button">{{obj.transAdt}}
-                                                </a>
-                                            </td>
-                                            <td>{{obj.transAmount}}</td>
-                                            <td>{{obj.agent}}</td>
-                                            <td>{{obj.leadernumber}}</td>
-                                            <td>{{obj.depositer}}</td>
-                                            <td>{{obj.transRef}}</td>
-                                            <td><span class="badge bg-success">{{obj.get_deposit_status}}</span></td>
-                                            <td>{{obj.timestamp}}</td>
-                                        </tr>
-                                        <div class="modal fade" id="exampleModalToggle-{{obj.id}}" aria-hidden="true"
-                                            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-            
-                                                        <ul class="list-group">
-                                                            {% if not obj.isDeposited %}
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-            
-                                                                Money Deposited by agent?
-                                                                <div>
-                                                                    <a class="btn btn-sm btn-outline-success"
-                                                                        href="{{obj.set_is_deposit}}">Yes</a>
-                                                                </div>
-                                                            </li>
-                                                            {% endif %}
-            
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                ATD No.
-                                                                <span class="">{{obj.transAdt}}</span>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                Leader Number
-                                                                <span class="">{{obj.leadernumber}}</span>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                Deposit Number
-                                                                <span class="">{{obj.depositer}}</span>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                Numbwe Of Farmers
-                                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                Agent Names
-                                                                <span class="">{{obj.agent}}</span>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                Agent Number
-                                                                <span class="">{{obj.agent.phonenumber}}</span>
-                                                            </li>
-            
-            
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                transRef
-                                                                <span class="">{{obj.transRef}}</span>
-                                                            </li>
-            
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                Status
-                                                                <span
-                                                                    class="badge bg-success rounded-bill p-1">{{obj.get_status}}</span>
-                                                            </li>
-            
-                                                        </ul>
-                                                    </div>
-            
                                                 </div>
                                             </div>
-                                        </div>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="fixed-table-footer"></div>
-                        </div>
-                        <div class="fixed-table-pagination">
-                            <div class="float-left pagination-detail"><span class="pagination-info">
-                                    Showing 1 to 5 of 30 rows
-                                </span>
-                                <div class="page-list">
-                                    <div class="btn-group dropdown dropup">
-                                        <button class="btn btn-xs btn-light dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown">
-                                            <span class="page-size">
-                                                5
-                                            </span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <div class="dropdown-menu"><a class="dropdown-item " href="#">10</a><a
-                                                class="dropdown-item " href="#">25</a><a class="dropdown-item "
-                                                href="#">50</a></div>
-                                    </div> rows per page
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
+                                <div class="fixed-table-footer"></div>
                             </div>
+                            <div class="fixed-table-pagination">
+
+                                <!-- {% if page_obj %}
                             <div class="float-right pagination">
                                 <ul class="pagination">
-                                    <li class="page-item page-pre"><a class="page-link" aria-label="previous page"
-                                            href="javascript:void(0)">‹</a></li>
-                                    <li class="page-item active"><a class="page-link" aria-label="to page 1"
-                                            href="javascript:void(0)">1</a></li>
-                                    <li class="page-item"><a class="page-link" aria-label="to page 2"
-                                            href="javascript:void(0)">2</a></li>
-                                    <li class="page-item"><a class="page-link" aria-label="to page 3"
-                                            href="javascript:void(0)">3</a></li>
-                                    <li class="page-item"><a class="page-link" aria-label="to page 4"
-                                            href="javascript:void(0)">4</a></li>
-                                    <li class="page-item"><a class="page-link" aria-label="to page 5"
-                                            href="javascript:void(0)">5</a></li>
-                                    <li class="page-item"><a class="page-link" aria-label="to page 6"
-                                            href="javascript:void(0)">6</a></li>
-                                    <li class="page-item page-next"><a class="page-link" aria-label="next page"
-                                            href="javascript:void(0)">›</a></li>
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                        
+
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if i == page_obj.number %}  
+                                        
+                                        <li class="page-item active"><a class="page-link" aria-label="to page 1"
+                                            href="?page={{ i }}">{{ i }}</a></li>
+                                   
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                  
                                 </ul>
                             </div>
+                            {% endif %} -->
+
+                            </div>
                         </div>
+
+                        <div class="d-flex justify-content-center">
+                            {% if page_obj %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <span class="step-links">
+                                        {% if page_obj.has_previous %}
+                                        <!-- <a href="?page=1">&laquo; first</a>
+                                            <a href="?page={{ page_obj.previous_page_number }}">previous</a> -->
+                                        {% endif %}
+
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if page_obj.has_next %}
+                                        <!-- <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
+                                        {% endif %}
+                                    </span>
+                                </ul>
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for i in page_obj.paginator.page_range %}
+                                    {% if i == page_obj.number %}
+                                    <li class="page-item  active ">
+                                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                            aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"
+                                            aria-label="Last">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                            {% endif %}
+                        </div>
+
                     </div>
-
-
-
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    $(document).ready(function() {
+        // When the "selectAllCheckbox" is clicked
+        $('#selectAllCheckbox').click(function() {
+            // Check if it is checked or unchecked
+            var isChecked = $(this).prop('checked');
 
+            // Set all checkboxes in the table body to the same state
+            $('input[name="selected_transactions"]').prop('checked', isChecked);
+        });
+    });
+</script>
 
 {% endblock %}

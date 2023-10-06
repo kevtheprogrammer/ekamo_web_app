@@ -45,7 +45,7 @@ class TransactionListView(ListView):
 
 class SearchResultsListView(ListView):
     model = FispTransaction
-    template_name = 'control/transactions_list.html' 
+    template_name = 'control/transactions_search.html' 
     context_object_name = 'transactions'
     form_class = FilterForm
 
@@ -147,7 +147,7 @@ def make_deposit(request, pk):
         'total_transaction_count':txn.count(),
         'deposited_await':total_amount - total_amount ,
     }
-    return render(request, 'control/transactions_list.html', context)
+    return render(request, 'control/transactions_search.html', context)
 
 
 
@@ -183,4 +183,4 @@ def make_deposits(request):
         # context['deposited_await'] = amount# Add it to the context
         # context['agents'] = AgentProfile.objects.all() #Add it to the context
         # Redirect to a confirmation page or the original page
-        return render(request, 'control/transactions_list.html', context) # redirect('account:search')  # Change 'confirmation_page' to your actual URL
+        return render(request, 'control/transactions_search.html', context) # redirect('account:search')  # Change 'confirmation_page' to your actual URL
