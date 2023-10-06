@@ -27,8 +27,11 @@ class FispTransaction(models.Model):
 
     objects = FispTransactionManager()  # Attach the custom manager
 
-
     class Meta:
+        indexes = [
+            models.Index(fields=['agent_id']),  # Index for agent_id
+            models.Index(fields=['created_at']),  # Index for created_at
+        ]
         ordering = ['-created_at']  
 
     def get_total_txn_amount(self):
