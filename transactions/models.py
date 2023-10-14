@@ -51,9 +51,6 @@ class FispTransaction(models.Model):
     def set_is_deposit(self):
         return reverse('account:txn_deposit',  args=[str(self.pk),])
 
-
-
-
     def get_status(self):
         if self.isSuccess:
             return "Success"
@@ -84,4 +81,7 @@ class AgentExpenses(models.Model):
     def __str__(self):
         return f'{self.amount} - {self.agent_given}'
  
-   
+
+    def get_total_credited_amount(self):
+        # Calculate the total transaction amount for this instance
+        return self.amount

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import FispTransaction
+from .models import *
 import django_filters
 
 
@@ -21,22 +21,7 @@ class FispTransactionAdmin(admin.ModelAdmin):
         
     def remove_deposit(self,request, queryset):
         queryset.update(isDeposited=False)
-    
  
-
-    # fieldsets = (
-    #     ('Transaction Details', {
-    #         'fields': ('transAdt', 'numberOfFarmers', 'isSuccess', 'transAmount', 'totalCommis',
-    #                    'transCommisAgent', 'transOldBalance', 'transNewBalance', 'transNewComBalance', 'transOldComBalance')
-    #     }),
-    #     ('Agent Details', {
-    #         'fields': ('agent',)
-    #     }),
-    #     ('Timestamps', {
-    #         'fields': ('timestamp', 'updated'),
-    #         'classes': ('collapse',),
-    #     }),
-    # )
 
     def get_queryset(self, request):
         # Optimize database queries by selecting related fields
@@ -47,4 +32,29 @@ class FispTransactionAdmin(admin.ModelAdmin):
         return f"${obj.transAmount:.2f}"
     transAmount_formatted.short_description = 'Transaction Amount'
 
-# admin.site.register(FispTransaction, FispTransactionAdmin)
+
+
+
+
+@admin.register(AgentExpenses)
+class AgentExpensesAdmin(admin.ModelAdmin):
+    list_display = ('amount', 'agent_given','reason','timestamp',  )
+    list_filter = ('timestamp' ,'agent_given',)
+    search_fields = ('amount', 'agent_given__first_name' , 'agent_given__last_name')  # Assuming AgentProfile has a user field
+
+    # list_per_page = 25
+    list_select_related = ('agent_given',)
+
+    readonly_fields = ('timestamp', 'updated')
+ 
+ 
+
+    def get_queryset(self, request):
+        # Optimize database queries by selecting related fields
+        return super().get_queryset(request).select_related('agent_given')
+
+    def transAmount_formatted(self, obj):
+        # Custom method to format the transaction amount
+        return f"K{obj.amount:.2f}"
+    transAmount_formatted.short_description = 'Amount'
+

@@ -1,5 +1,5 @@
 from django import forms
-from .models import FispTransactionManager
+from .models import *
 from account.models import AgentProfile
 
 class FilterForm(forms.Form):
@@ -21,3 +21,11 @@ class FilterForm(forms.Form):
         super(FilterForm, self).__init__(*args, **kwargs)
         # Filter the queryset of the agent field based on user.agents_to_manage
         self.fields['agent'].queryset = user.agents_to_manage.all()
+
+class AgentExpensesForm(forms.ModelForm):
+    class Meta:
+        model = AgentExpenses
+        fields = [
+            'amount',
+            'reason',
+        ]

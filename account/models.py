@@ -23,7 +23,7 @@ class AgentType(models.Model): #get
     updated  = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title} - {self.commission}'
+        return f'{self.title}'
 
 class AgentProfile(models.Model):  #get  #post
     floatLimit = models.DecimalField(max_digits=100, decimal_places=2)
@@ -72,6 +72,13 @@ class AgentProfile(models.Model):  #get  #post
     timestamp = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def get_earning(self):
+        if self.agent_type.commission:
+            return self.agent_type.commission
+        if self.agent_type.salary:
+            return self.agent_type.salary
+        return 0
+
     def get_absolute_url(self):
         return reverse('account:txn_details',  args=[str(self.pk),])
 
@@ -80,14 +87,21 @@ class AgentProfile(models.Model):  #get  #post
         
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-    
+
+    def get_full_name(self):
+        '''
+        Returns the first_name plus the last_name, with a space in between.
+        '''
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
+
+
 class User(AbstractBaseUser, PermissionsMixin):  #get 
     ID_TYPE = (
           ('NRC', 'NRC'),
           ('Passport', 'Passport'),
           ('Drivers Lincense', 'Drivers Lincense'),
     )
-
     idtype = models.CharField(choices= ID_TYPE,verbose_name='id type', max_length=300, blank=True)
     idNo = models.CharField(verbose_name='ID Type', max_length=300,blank=True )
     id_front = models.ImageField(upload_to='id_front/', null=True, blank=True)

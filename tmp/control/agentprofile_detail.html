@@ -5,316 +5,500 @@
 
 {% block content %}
 
-<div class="row" style="margin-top: 30px;">
-    <div class="col-md-6 col-xl-3">
-        <div class="card my-card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-sm bg-soft-info rounded">
-                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark my-1 amount">K<span data-plugin="counterup "
-                                    class="figures">{{total_amount}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate head"> <b>Total Txn Amount</b>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <h6 class="text-uppercase">Target <span class="float-end">60%</span></h6>
-                    <div class="progress progress-sm m-0">
-                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 60%">
-                            <span class="visually-hidden">60% Complete</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- end card-->
-    </div> <!-- end col -->
+<div class="row mt-3"  >
+    <div class="col-md-3 ">
+        <div class="card text-center   pb-0">
+            <div class="card-body pb-2">
+                <img src="https://img.icons8.com/?size=48&id=Hj21JM30swCm&format=png" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
-    <div class="col-md-6 col-xl-3">
-        <div class="card my-card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-sm bg-soft-info rounded">
-                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark my-1"><span data-plugin="counterup"> {{total_transaction_count}} </span>
-                            </h3>
-                            <p class="text-muted mb-1 text-truncate"><b>Total No. Transactions</b>
+                <h4 class="mb-0">{{object.first_name}} {{object.last_name}}</h4>
+                <p class="text-muted">@{{object.code}}</p>
 
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <h6 class="text-uppercase">Target <span class="float-end">49%</span></h6>
-                    <div class="progress progress-sm m-0">
-                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="49" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 49%">
-                            <span class="visually-hidden">49% Complete</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- end card-->
-    </div> <!-- end col -->
+                <div class="text-start mt-1">
+                    <h4 class="font-13 text-uppercase">About Agent :</h4>
+                    
+                    <p class="text-muted mb-2 font-13"><strong>Location :</strong> <span class="ms-2">{{object.district}}, {{object.province}}</span></p>
+                
+                    <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{object.phonenumber}}</span></p>
+                
+                
+                </div>                                    
 
-    <div class="col-md-6 col-xl-3">
-        <div class="card my-card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-sm bg-soft-info rounded">
-                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
-                        </div>
+            
+            </div>                                 
+        </div>
+    </div>
+   
+    <div class="col-md-6 col-12 col-lg-9">
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <div class="widget-rounded-circle card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
+                                    <i class="fe-heart font-22 avatar-title text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-end">
+                                    <h3 class="text-dark mt-1">K<span data-plugin="counterup">{{total_amount}}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Total Transaction Amount</p>
+                                </div>
+                            </div>
+                        </div> <!-- end row-->
                     </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark my-1">K<span data-plugin="counterup">{{deposited_amount}}
-                                </span></h3>
-                            <p class="text-muted mb-1 text-truncate"><b>Desposit Amount</b>
+                </div> <!-- end widget-rounded-circle-->
+            </div> <!-- end col-->
 
-                            </p>
-                        </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="widget-rounded-circle card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="avatar-lg rounded-circle bg-soft-success border-success border">
+                                    <i class="fe-shopping-cart font-22 avatar-title text-success"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-end">
+                                    <h3 class="mt-1"><span data-plugin="counterup">{{total_transaction_count}}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Total No. Transactions</p>
+                                </div>
+                            </div>
+                        </div> <!-- end row-->
                     </div>
-                </div>
-                <div class="mt-3">
-                    <h6 class="text-uppercase">Target <span class="float-end">18%</span></h6>
-                    <div class="progress progress-sm m-0">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="18" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 18%">
-                            <span class="visually-hidden">18% Complete</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- end card-->
-    </div> <!-- end col -->
+                </div> <!-- end widget-rounded-circle-->
+            </div> <!-- end col-->
 
-    <div class="col-md-6 col-xl-3">
-        <div class="card my-card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-sm bg-soft-info rounded">
-                            <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
-                        </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="widget-rounded-circle card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                    <i class="fe-bar-chart-line- font-22 avatar-title text-info"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-end">
+                                    <h3 class="mt-1">K<span data-plugin="counterup">{{bill_comm}}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Billfold Commission</p>
+                                </div>
+                            </div>
+                        </div> <!-- end row-->
                     </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark my-1">K<span data-plugin="counterup" class="expence "> {{deposited_await}}</span>
-                            </h3>
-                            <p class="text-muted mb-1 text-truncate"><b>Deposit Awaiting </b>
+                </div> <!-- end widget-rounded-circle-->
+            </div> <!-- end col-->
 
-                            </p>
-                        </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="widget-rounded-circle card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="avatar-lg rounded-circle bg-soft-warning border-warning border">
+                                    <i class="fe-eye font-22 avatar-title text-warning"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-end">
+                                    <h3 class="mt-1"><span data-plugin="counterup">{{agent_commission}}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Agent Commision</p>
+                                </div>
+                            </div>
+                        </div> <!-- end row-->
                     </div>
-                </div>
-                <div class="mt-3">
-                    <h6 class="text-uppercase">Target <span class="float-end">74%</span></h6>
-                    <div class="progress progress-sm m-0">
-                        <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="74" aria-valuemin="0"
-                            aria-valuemax="100" style="width: 74%">
-                            <span class="visually-hidden">74% Complete</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- end card-->
-    </div> <!-- end col -->
+                </div> <!-- end widget-rounded-circle-->
+            </div> <!-- end col-->
 
 
-    
+            <div class="col-md-6 col-xl-4">
+                <div class="widget-rounded-circle card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                    <i class="fe-bar-chart-line- font-22 avatar-title text-info"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-end">
+                                    <h3 class="mt-1">K<span data-plugin="counterup">{{total_amount_expenses}}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Expenses on {{object}}</p>
+                                </div>
+                            </div>
+                        </div> <!-- end row-->
+                    </div>
+                </div> <!-- end widget-rounded-circle-->
+            </div> <!-- end col-->
+
+            <div class="col-md-6 col-xl-4">
+                <div class="widget-rounded-circle card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="avatar-lg rounded-circle bg-soft-warning border-warning border">
+                                    <i class="fe-eye font-22 avatar-title text-warning"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-end">
+                                    <h3 class="mt-1"><span data-plugin="counterup">{{total_amount_expenses_count}}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Number of Expenses</p>
+                                </div>
+                            </div>
+                        </div> <!-- end row-->
+                    </div>
+                </div> <!-- end widget-rounded-circle-->
+            </div> <!-- end col-->
+
+
+        </div>
+    </div>
+   
 </div>
 <!-- end row -->
- 
 
+<div class="row ">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Agent Expenses</h4>
+                <p class="sub-header">
+                    Credit given to {{object.first_name}} {{object.last_name}} <code class="highlighter-rouge">for </code>smooth <code class="highlighter-rouge">running</code> of <code class="highlighter-rouge">FISP</code> collection.
+                </p>
+                <div class="col-12 mb-2">
+                    <a href="{% url 'account:export_agent_expenses_excel' object.pk %}" class=" btn btn-primary ">Export Excel</a>
+
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#centermodal">Add Expense</button>
+                     <!-- Center modal content -->
+                     <div class="modal fade" id="centermodal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myCenterModalLabel">Add Expense</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Overflowing text to show scroll behavior</h5>
+                                    <form action="{{object.get_absolute_url}}" method="post">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="example-palaceholder" class="form-label">Amount</label>
+                                            <input type="text" name="amount" class="form-control" placeholder="amount given">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="example-textarea" class="form-label">Reason</label>
+                                            <textarea class="form-control" name="reason" rows="3"></textarea>
+                                        </div>
+                                        <input class="btn btn-success col-12" type="submit" name="" value="submit">
+                                    </form>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>Amount</th>
+                                <th>Reasom</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% if expenses %}
+                            {% for e in expenses %}
+                            <tr>
+                                <th scope="row">{{e.id}}</th>
+                                <td>{{e.amount}}</td>
+                                <td>{{e.reason}}</td>
+                                <td>{{e.timestamp}}</td>
+                            </tr>
+                            {% endfor %}
+                            
+                            {% else  %}
+                                <div class="h3 text-danger">No records added</div>
+                            {% endif  %}
+                        </tbody>
+                    </table>
+                </div> <!-- end table-responsive-->
+            </div>
+        </div> <!-- end card -->
+    </div>
+</div>
+ 
 
 <div class="row">
     <div class="col-lg-12 ">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Transactions done by {{object}}</h4>
-                
+                <h4 class="card-title">Transactions</h4>
                 <div style="display:flex; justify-content:space-between">
-                <div class="row">
-                    <form  class="col-md-12" style="padding-left: 15px;"     method="post" action="{{object.search_url}}">
+                    <div class="row">
+                        
+                        <div class="col-md-12 mb-3" style="padding-left: 15px;">
+                            <a href="{% url 'account:export_transactions_excel' object.pk %}" class=" btn btn-primary ">Export Excel</a>
+                            <a id="yourButtonId" href="{% url 'account:load' %}" class="btn btn-success">Load</a>
+                        </div>
+                    </div>
+                    <!-- Add advanced filter dropdown -->
+                    <div class="col-xl-3 text-end row">
 
-                        <div class="input-group mb-3">
-                            {% csrf_token %}
-                            <input type="text" class="form-control" name="q" placeholder="Search...">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-primary" >Search</button>
+                  
+                    <div class="dropdown col-6 ">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Advanced Filter
+                        </button>
+                        <ul class="dropdown-menu " style="width: 400px;" aria-labelledby="dropdownMenu2">
+                            <form class="px-4 py-3 " method="GET" action="{% url 'account:agent-details-filter' object.pk %}">
+                                <p>
+                                    <label for="id_timestamp">Start Date:</label>
+                                    <input type="date" name="timestamp" class="form-control"  required {% if start_date %} value="{{start_date}}" {% endif %}
+                                        id="id_timestamp">
+                                </p>
+                                <p>
+                                    <label for="id_date_to">End Date:</label>
+                                    <input type="date" name="date_to" class="form-control" required {% if end_date %} value="{{end_date}}" {% endif %}  id="id_date_to">
+                                </p>
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </form>
+                        </ul>
+                    </div>
+                </div>
+
+                </div>
+                <form method="POST" action="{% url 'account:make_deposits' %}">
+                    <button class="btn btn-outline-success mb-2" type="submit">Mark as Deposited</button>
+
+                    <div class="table-responsive">
+
+                        <div class="bootstrap-table bootstrap5">
+                            <div class="fixed-table-toolbar"></div>
+
+                            <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                <div class="fixed-table-body">
+                                    {% csrf_token %}
+                                    <table data-toggle="table" data-page-size="15" data-buttons-class="xs btn-light"
+                                        data-pagination="true" class="table-bordered table table-hover"
+                                        style="display: table;">
+                                        <thead class="table-light">
+                                            <tr>
+                                                     
+                                                <th class="bs-checkbox" style="width: 36px;" data-field="state">
+                                                    <div class="th-inner"><label><input id="selectAllCheckbox" type="checkbox"><span></span></label></div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                    
+                                                <th data-field="id">
+                                                    <div class="th-inner ">ATD Number</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="name">
+                                                    <div class="th-inner ">Amount</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="date">
+                                                    <div class="th-inner ">Agent</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="user-status">
+                                                    <div class="th-inner ">RefId</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="user-status">
+                                                    <div class="th-inner ">status</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th data-field="user-status">
+                                                    <div class="th-inner ">Time</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for obj in transactions %}
+                                            <tr data-index="3" class="">
+                                                <td class="bs-checkbox " style="width: 36px; "><label>
+                                                        <input data-index="{{ obj.id }}" name="selected_transactions"
+                                                            value="{{ obj.id }}" type="checkbox">
+                                                        <span></span>
+                                                    </label></td>
+                                                <td>
+                                                    <a class="btn-link" data-bs-toggle="modal"
+                                                        href="#exampleModalToggle-{{obj.id}}"
+                                                        role="button">{{obj.transAdt}}</a>
+                                                </td>
+                                                <td>{{obj.transAmount}}</td>
+                                                <td>{{obj.agent}}</td>
+                                                <td>{{obj.transRef}}</td>
+                                                <td><span class="badge
+                                                    {% if not obj.isDeposited %} bg-soft-danger text-danger
+                                                    {% else %} bg-soft-success text-success
+                                                    {% endif %}
+                                                    p-1 rounded-bill ">{{obj.get_deposit_status}}</span></td>
+                                                <td>{{obj.created_at}}</td>
+                                            </tr>
+                                            <div class="modal fade" id="exampleModalToggle-{{obj.id}}"
+                                                aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+                                                tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul class="list-group">
+                                                                {% if not obj.isDeposited %}
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Money Deposited by agent?
+                                                                    <div>
+                                                                        <div class=""
+                                                                            href="">No</div>
+                                                                    </div>
+                                                                </li>
+                                                                {% endif %}
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    ATD No.
+                                                                    <span class="">{{obj.transAdt}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Leader Number
+                                                                    <span class="">{{obj.leadernumber}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Deposit Number
+                                                                    <span class="">{{obj.depositer}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Numbwe Of Farmers
+                                                                    <span class="">{{obj.numberOfFarmers}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Agent Names
+                                                                    <span class="">{{obj.agent}}</span>
+                                                                </li>
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Agent Number
+                                                                    <span class="">{{obj.agent.phonenumber}}</span>
+                                                                </li>
+
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    transRef
+                                                                    <span class="">{{obj.transRef}}</span>
+                                                                </li>
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    Status
+                                                                    <span
+                                                                        class="badge bg-success rounded-bill p-1">dsd{{obj.get_status}}</span>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="fixed-table-footer"></div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <!-- Add advanced filter dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                        Advanced Filter
-                    </button>
-                    <ul class="dropdown-menu " style="width: 400px;" aria-labelledby="dropdownMenu2">
-                        <form class="px-4 py-3 " method="post" action="{% url 'account:filter_view' %}">
-                            {% csrf_token %}
-                            <!-- <p>
-                                <label for="id_agent">Agent:</label>
-                                <select name="agent" class="form-control" required="" id="id_agent">
-                                    <option value="" selected="">Select Agent</option>
-                                    {% for i in my_agents %}
-                                    <option value="{{i.id}}">{{i}}</option>
-                                    {% endfor  %}
-                                </select>
-                            </p> -->
-                            <p>
-                                <label for="id_timestamp">Timestamp:</label>
-                                <input type="date" name="timestamp" class="form-control" required="" id="id_timestamp">
-                            </p>                            
-                            <p>
-                                <label for="id_date_to">Date to:</label>
-                                <input type="date" name="date_to" class="form-control" required="" id="id_date_to">
-                            </p>
-                            <button type="submit" class="btn btn-primary">Filter</button>
-                        </form>
-                    </ul>
-                  </div>
-                
-            </div>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>ATD no</th>
-                                <th>Amount</th> 
-                                <th>Agent</th>
-                                <th>Leader Number</th>
-                                <th>Depositer Number</th>
-                                <th class="text-center">RefId</th>
-                                <th>Deposited</th>
-                                <th class="text-center">Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for obj in transactions %}
-                            <tr data-index="0">
-                                <td> 
-                                    <a class="btn-link" data-bs-toggle="modal" href="#exampleModalToggle-{{obj.id}}" role="button"> 
-                                        {{obj.transAdt}}
-                                    </a>
-                                </td>
-                                <td>{{obj.transAmount}}</td>
-                                <td><span class="text-muted">{{obj.agent}}</span></td>
-                                <td style="text-align: center; ">{{obj.leadernumber}}</td>
-                                <td style="text-align: center; ">{{obj.depositer}}</td>
-                                <td style="text-align: center; ">{{obj.transRef}}</td>
-                                <td style="text-align: center; ">{{obj.get_deposit_status}}</td>
-                                <td style="text-align: center; ">{{obj.created_at}}</td>
-                            </tr>
-                            <div class="modal fade" id="exampleModalToggle-{{obj.id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        
-                                        <ul class="list-group">
-                                            {% if not obj.isDeposited %} 
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                
-                                                Money Deposited by agent?
-                                                <div>
-                                                    <a class="btn btn-sm btn-outline-success" href="{{obj.set_is_deposit}}" >Yes</a>
-                                                </div> 
-                                            </li>
-                                            {% endif %}
-                                           
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                ATD No.
-                                                <span class="">{{obj.transAdt}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Leader Number
-                                                <span class="">{{obj.leadernumber}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Deposit Number
-                                                <span class="">{{obj.depositer}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Numbwe Of Farmers
-                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Agent Names
-                                                <span class="">{{obj.agent}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Agent Number
-                                                <span class="">{{obj.agent.phonenumber}}</span>
-                                            </li>
-                                            
-                                           
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                transRef
-                                                <span class="">{{obj.transRef}}</span>
-                                            </li>
+                        <div class="d-flex justify-content-center">
+                            {% if page_obj %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <span class="step-links">
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+                                    </span>
+                                </ul>
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
 
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Status
-                                                <span class="badge bg-success rounded-bill p-1">{{obj.get_status}}</span>
-                                            </li>
-                                            
-                                        </ul>
-                                    </div>
-                                     
-                                  </div>
-                                </div>
-                              </div>
-                               
-                             
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <!-- <tfoot>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-                    </tfoot> -->
-                </div>
+                                    {% for i in page_obj.paginator.page_range %}
+                                    {% if i == page_obj.number %}
+                                    <li class="page-item  active ">
+                                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                            aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"
+                                            aria-label="Last">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    $(document).ready(function() {
+        // When the "selectAllCheckbox" is clicked
+        $('#selectAllCheckbox').click(function() {
+            // Check if it is checked or unchecked
+            var isChecked = $(this).prop('checked');
 
- 
+            // Set all checkboxes in the table body to the same state
+            $('input[name="selected_transactions"]').prop('checked', isChecked);
+        });
+    });
+</script>
 
 
 {% endblock %}

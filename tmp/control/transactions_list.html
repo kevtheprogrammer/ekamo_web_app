@@ -10,12 +10,12 @@
         <div class="card my-card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-2">
                         <div class="avatar-sm bg-soft-info rounded">
                             <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-10">
                         <div class="text-end">
                             <h3 class="text-success my-1 ">ZMK<span data-plugin="counterup"> {{total_amount}} </span>
                             </h3>
@@ -41,12 +41,12 @@
         <div class="card my-card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-2">
                         <div class="avatar-sm bg-soft-info rounded">
                             <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-10">
                         <div class="text-end">
                             <h3 class="text-dark my-1"><span data-plugin="counterup"> {{total_transaction_count}}
                                 </span>
@@ -74,12 +74,12 @@
         <div class="card my-card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-2">
                         <div class="avatar-sm bg-soft-info rounded">
                             <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-10">
                         <div class="text-end">
                             <h3 class="text-dark my-1">K<span data-plugin="counterup">{{deposited_amount}}
                                 </span></h3>
@@ -106,12 +106,12 @@
         <div class="card my-card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-2">
                         <div class="avatar-sm bg-soft-info rounded">
                             <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-10">
                         <div class="text-end">
                             <h3 class="text-dark my-1">K<span data-plugin="counterup" class="expence ">
                                     {{deposited_await}}</span>
@@ -148,8 +148,8 @@
                     <div class="row">
 
                         <div class="col-md-12 mb-3" style="padding-left: 15px;">
-
-                            <a id="yourButtonId" href="{% url 'account:load' %}" class="btn btn-success">Load</a>
+                            <a  href="{% url 'account:export_all_transactions_excel' %}" class=" btn btn-sm me-2 btn-primary ">Export Excel</a> 
+                            <a id="yourButtonId" href="{% url 'account:load' %}" class="btn btn-sm btn-success">Load</a>
                         </div>
                     </div>
                     <!-- Add advanced filter dropdown -->

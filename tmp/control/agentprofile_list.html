@@ -10,21 +10,21 @@
         <div class="card my-card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-2">
                         <div class="avatar-sm bg-soft-info rounded">
                             <i class="bi bi-cash-coin avatar-title font-22 text-info"></i>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-10">
                         <div class="text-end">
-                            <h3 class="text-dark my-1 amount">K<span data-plugin="counterup "
-                                    class="figures">{{total_amount}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate head"> <b>Total  Agents</b>
+                            <h3 class="text-dark my-1 amount"><span data-plugin="counterup "
+                                    class="figures">{{total_agents}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate head"> <b>Total Agents</b>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="mt-3">
+                <!-- <div class="mt-3">
                     <h6 class="text-uppercase">Target <span class="float-end">60%</span></h6>
                     <div class="progress progress-sm m-0">
                         <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0"
@@ -32,164 +32,174 @@
                             <span class="visually-hidden">60% Complete</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div> <!-- end card-->
     </div> <!-- end col -->
-    
+
 </div>
 <!-- end row -->
  
+
+
 <div class="row">
-    <div class="col-lg-12 ">
+    <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Agents</h4>
-                
-                <div style="display:flex; justify-content:space-between">
-                    <div class="row">
-                    <div  class="col-md-12" style="padding-left: 15px;"  >
-                        <form method="post" action="" >
+                <h4 class="header-title">Agent Profiles</h4>
+                <p class="sub-header">
+                    Active Agent Profile(s) Collecting FISP Deposits
+                </p>
+                <!-- row row-cols-sm-auto g-2 align-items-center -->
+                <div class="mb-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col">
+                        <div class="row">
 
-                            <div class="input-group mb-3">
-                                {% csrf_token %}
-                                <input type="text" class="form-control" name="q" placeholder="Search...">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" >Search</button>
+                        <div class="text-end">
+
+                            <form class="row row-cols-sm-auto align-items-center" method="GET" action="{% url 'account:agent_filter' %}">
+                                <div class="col-9">
+                                    <input id="demo-foo-search" type="text" placeholder="Search" name="q"
+                                    class="form-control form-control-sm  " autocomplete="on">
                                 </div>
-                            </div>
-                        </form>
+                                <div class=" col-1">
+                                    <input type="submit" 
+                                    class="btn btn-sm btn-outline-success" value="Q">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    </div>
+                    <a  href="{% url 'account:export_all_agents_excel' %}" class="col-1 btn btn-sm me-2 btn-primary ">Export Excel</a> 
+
+                        <form method="GET" action="{% url 'account:agent_filter' %}" class="col-1 ">
+                            <select id="province-filter" name="province" class="form-select form-select-sm">
+                                {% if province %}
+                                <option value="{{province}}">{{province}}</option>
+                                {% endif %}
+                                <option value="all">Show all</option>
+                                {% for i in unique_provinces %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </form >                       
                     </div>
                 </div>
-                <!-- Add advanced filter dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                        Advanced Filter
-                    </button>
-                    <ul class="dropdown-menu " style="width: 400px;" aria-labelledby="dropdownMenu2">
-                        <form class="px-4 py-3 "  method="post" >
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Filter</button>
-                        </form>
-                    </ul>
-                  </div>
-                
-            </div>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-light">
+                    <table id="demo-foo-filtering"
+                        class="table table-bordered toggle-circle mb-0 footable-loaded footable default"
+                        data-page-size="">
+                        <thead>
                             <tr>
-                                <th class="text-center" >Names</th>
-                                <th class="text-center">code</th>
-                                <th class="text-center">Agent Number</th>
-                                <th class="text-center">Province</th>
-                                <th class="text-center">District</th>
-                                <!-- <th class="text-center">Class</th>
-                                <th class="text-center">Float Limit </th> -->
+                                <th data-toggle="true"
+                                    class="footable-visible footable-sortable footable-sorted-desc footable-first-column">
+                                    First Name
+                                </th>
+                                <th class="footable-visible footable-sortable">Last Name 
+                                </th>
+                                <th data-hide="phone" class="footable-sortable footable-visible">Agent Number 
+                                </th>
+                                <th data-hide="phone, tablet" class="footable-sortable footable-visible">
+                                    Agent Code
+                                </th>
+                                <th data-hide="phone, tablet" class="footable-sortable footable-visible">
+                                    Agent Type
+                                </th>
+                                <th data-hide="phone, tablet"
+                                class="footable-sortable footable-visible footable-last-column">District 
+                            </th>
+                                <th data-hide="phone, tablet"
+                                    class="footable-sortable footable-visible footable-last-column">Province 
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% if agentprofiles %}
                             {% for obj in agentprofiles %}
-                            <tr data-index="0">
-                                <td style="text-align: center; "> 
-                                    <a class="btn-link" href="{{obj.get_absolute_url}}" > 
-                                        {{obj.first_name}} {{obj.last_name}}
+                            <tr class="footable-even">
+                                    <td class="footable-visible footable-first-column">
+                                        <a href="{% url 'account:agent-details' obj.pk %}">
+                                        <span
+                                        class="footable-toggle"></span>{{obj.first_name}}
                                     </a>
-                                </td>
-                                <td style="text-align: center; ">
-                                    {{obj.code}}
-                                </td>
-                                <!-- <td style="text-align: center; "><span class="text-muted">{{obj.floatLimit}}</span></td> -->
-                                <!-- <td style="text-align: center; ">{{obj.agent_type}}</td> -->
-                                <td style="text-align: center; ">{{obj.phonenumber}}</td>
-                                <td style="text-align: center; ">{{obj.province}}</td>
-                                <td style="text-align: center; ">{{obj.district}}</td>
-                            </tr>
-                            <div class="modal fade" id="exampleModalToggle-{{obj.id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalToggleLabel">FISP Transaction</h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        
-                                        <ul class="list-group">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Status
-                                                <span class="badge bg-success rounded-bill p-1">{{obj.get_status}}</span>
+                                    </td>
+                                    <td class="footable-visible">{{obj.last_name}}</td>
+                                    <td class="footable-visible">{{obj.phonenumber}}</td>
+                                    <td class="footable-visible">{{obj.code}}</td>
+                                    <td class="footable-visible">{{obj.agent_type}}</td>
+                                    <td class="footable-visible">{{obj.district}}</td>
+                                    <td class="footable-visible footable-last-column"> 
+                                        {{obj.province}}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <div class="h4 text-danger"> No Records Found</div>
+                            {% endif %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="active">
+                                <td colspan="7" class="footable-visible">
+                                    {% if page_obj %}
+                                    <div class="text-end">
+                                        <ul
+                                            class="pagination pagination-rounded justify-content-end footable-pagination mb-0">
+                                            
+                                            <li class="footable-page-arrow disabled p-2">
+                                                <span class="step-links">
+                                                    {% if page_obj.has_previous %}
+                                          
+                                                    {% endif %}
+            
+                                                    <span class="current">
+                                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                                    </span>
+            
+                                                    {% if page_obj.has_next %}
+                                            
+                                                    {% endif %}
+                                                </span>
                                             </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                ATD No.
-                                                <span class="">{{obj.transAdt}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Leader Number
-                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Deposit Number
-                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Numbwe Of Farmers
-                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Agent Names
-                                                <span class="">{{obj.agent}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Agent Number
-                                                <span class="">{{obj.agent.phonenumber}}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Number Of Farmers
-                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                            </li>
-                                           
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                transRef
-                                                <span class="">{{obj.numberOfFarmers}}</span>
-                                            </li>
+                                            {% if page_obj.has_previous %}
+                                            <li class="footable-page-arrow disabled"><a data-page="first" href="?page=1">«</a></li>
+                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="?page={{ page_obj.previous_page_number }}">‹</a></li>
+                                            {% endif %}
+                                            {% for i in page_obj.paginator.page_range %}
+                                            {% if i == page_obj.number %}
+                                            <li class="footable-page active"><a data-page="0" href="?page={{ i }}">{{ i }}</a></li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% if page_obj.has_next %}
+                                            <li class="footable-page-arrow"><a data-page="next" href="?page={{ page_obj.next_page_number }}">›</a></li>
+                                            <li class="footable-page-arrow"><a data-page="last" href="?page={{ page_obj.paginator.num_pages }}">»</a></li>
+                                            {% endif %}
                                         </ul>
                                     </div>
-                                     
-                                  </div>
-                                </div>
-                            </div>                            
-                            {% endfor %}
-                        </tbody>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
-                    <tfoot>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-                    </tfoot>
-                </div>
+                </div> <!-- end .table-responsive-->
             </div>
-        </div>
-    </div>
+        </div> <!-- end card -->
+    </div> <!-- end col -->
 </div>
 
-
- 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the <select> element by its id
+        var selectElement = document.getElementById('province-filter');
+    
+        // Add an event listener to trigger form submission on change
+        selectElement.addEventListener('change', function () {
+            this.form.submit(); // Submit the form when an option is selected
+        });
+    });
+</script>
 
 
 {% endblock %}

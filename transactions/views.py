@@ -42,7 +42,6 @@ class TransactionListView(ListView):
         context['agents'] = AgentProfile.objects.all() #Add it to the context
         return context
  
-
 class SearchResultsListView(ListView):
     model = FispTransaction
     template_name = 'control/transactions_search.html' 
@@ -54,7 +53,6 @@ class SearchResultsListView(ListView):
         context['agents'] = AgentProfile.objects.all()
         return context
 
-
     def get_queryset(self):
         queryset = super().get_queryset()
         name = self.request.GET.get('q')
@@ -64,9 +62,9 @@ class SearchResultsListView(ListView):
 
         if name:
             queryset = queryset.filter(
-                Q(agent__first_name__icontains=name) |
-                Q(agent__last_name__icontains=name) |
-                Q(agent__code__icontains=name) |
+                Q(agent__first_name__icontains=name)|
+                Q(agent__last_name__icontains=name)|
+                Q(agent__code__icontains=name)|
                 Q(agent__phonenumber__icontains=name)
             )
             
@@ -109,23 +107,11 @@ class SearchResultsListView(ListView):
             if x in  self.get_queryset():
                 if x.isDeposited:
                     total_deposited_amount_amount.append(int(x.transAmount))
-        # deposited_amount = [ x.aggregate(total_amount=Sum('transAmount'))['total_amount'] for x in FispTransaction.objects.filter(isDeposited=True) ]
-        # print('deposited --',sum(total_deposited_amount_amount))
         try:
             amount = total_trans_amount - sum(total_deposited_amount_amount)
         except:
             amount = 0
-
-        # try:
-        #     start_date = self.request.GET.get('timestamp')
-        #     end_date = self.request.GET.get('date_to')
-        #     agent_id = self.request.GET.get('agent')
-        #     agent = AgentProfile.objects.filter(id=agent_id) #iterate by all
-        #     context['start_date_query'] = start_date  # Add it to the context
-        #     context['end_date_query'] = end_date  # Add it to the context
-        #     context['agent_query'] = agent  # Add it to the context
-        # except:
-        #     pass
+ 
         context['form'] = self.form_class(user=self.request.user)  # Add it to the context
         context['total_amount'] = total_trans_amount  # Add it to the context
         context['deposited_amount'] = sum(total_deposited_amount_amount)  # Add it to the context
@@ -133,8 +119,7 @@ class SearchResultsListView(ListView):
         context['deposited_await'] = amount# Add it to the context
         context['agents'] = AgentProfile.objects.all() #Add it to the context
         return context
- 
- 
+
 def make_deposit(request, pk):
     txn = FispTransaction.objects.get(pk=pk)
     txn.isDeposited = True
@@ -148,8 +133,6 @@ def make_deposit(request, pk):
         'deposited_await':total_amount - total_amount ,
     }
     return render(request, 'control/transactions_search.html', context)
-
-
 
 def make_deposits(request):
     if request.method == 'POST':
